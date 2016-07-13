@@ -10,25 +10,37 @@ require_once 'include/helpers.php';
 // Remove Beans default styling
 remove_theme_support( 'beans-default-styling' );
 
-
 // Enqueue uikit assets
 beans_add_smart_action( 'beans_uikit_enqueue_scripts', 'bench_enqueue_uikit_assets', 5 );
 
 function bench_enqueue_uikit_assets() {
+
+    beans_uikit_dequeue_components( array(
+        'alert',
+        'comment',
+        'dropdown',
+        'table',
+        'badge',
+        'alert',
+    ) );
+
+    // Add additional UIKit components
+    beans_uikit_enqueue_components( array(
+        'smooth-scroll',
+        'contrast'
+    ) );
+
+    // Add addition UIKit Addon components
+    beans_uikit_enqueue_components( array('sticky'), 'add-ons');
 
 	// Enqueue uikit overwrite theme folder
 	beans_uikit_enqueue_theme( 'bench', get_stylesheet_directory_uri() . '/assets/less/uikit' );
 
 	// Add the theme style as a uikit fragment to have access to all the variables
 	beans_compiler_add_fragment( 'uikit', get_stylesheet_directory_uri() . '/assets/less/style.less', 'less' );
-	// Add additional UIKit components
-	beans_uikit_enqueue_components( array('smooth-scroll') );
 
 	// Add the theme js as a uikit fragment
 	beans_compiler_add_fragment( 'uikit', get_stylesheet_directory_uri() . '/assets/js/bench.js', 'js' );
-
-	// Include the uikit components needed
-	beans_uikit_enqueue_components( array( 'contrast' ) );
 
 }
 
@@ -47,10 +59,10 @@ beans_add_smart_action('beans_main_prepend_markup', 'bench_below_header_widget_o
 function bench_below_header_widget_output() {
 	if(!is_front_page() && !is_page()) {
 	?>
-	<div class="tm-below-header-widget-area">
-			<?php echo beans_widget_area( 'below-header' ); ?>
-	</div>
-	<?php
+    <div class="tm-below-header-widget-area">
+        <?php echo beans_widget_area( 'below-header' ); ?>
+    </div>
+    <?php
 	}
 }
 
@@ -125,10 +137,8 @@ function bench_setup_document() {
 
 	// Layout
 	if(beans_get_layout( ) != 'c' && beans_get_layout( ) != 'bench_c') {
-		beans_remove_attribute( 'beans_primary', 'class', 'uk-width-medium-7-10' );
-		beans_add_attribute( 'beans_primary', 'class', 'uk-width-large-7-10' );
-		beans_remove_attribute( 'beans_sidebar_primary', 'class', 'uk-width-medium-3-10' );
-		beans_add_attribute( 'beans_sidebar_primary', 'class', 'uk-width-large-3-10 uk-visible-large' );
+        beans_replace_attribute( 'beans_primary', 'class', 'uk-width-medium-7-10', 'uk-width-medium-6-10 uk-width-large-7-10' );
+        beans_replace_attribute( 'beans_sidebar_primary', 'class', 'uk-width-medium-3-10', 'uk-width-medium-4-10 uk-width-large-3-10 uk-hidden-small' );
  }
 
 	// Post meta
@@ -154,21 +164,18 @@ function bench_setup_document() {
 		beans_remove_action( 'beans_breadcrumb' );
 
 		//remove featured image
-		beans_remove_action( 'beans_post_image' );
+		//beans_remove_action( 'beans_post_image' );
 
 		// Post navigation
 		beans_add_attribute( 'beans_post_navigation', 'class', 'uk-grid-margin' );
 
-		// Post author profile
-		add_action( 'beans_comments_before_markup', 'bench_author_profile' );
-
-		// Post comments
-		beans_add_attribute( 'beans_comments', 'class', 'uk-margin-bottom-remove' );
-		beans_add_attribute( 'beans_comment_form_wrap', 'class', 'uk-contrast' );
-		beans_add_attribute( 'beans_no_comment', 'class', 'tm-no-comments uk-text-center uk-text-large uk-block' );
-		beans_remove_action( 'beans_comment_form_divider' );
-
 	}
+
+    // Right Navigation
+    beans_add_attribute( 'beans_widget_area_offcanvas_bar[_offcanvas_menu]', 'class', 'uk-offcanvas-bar-flip');
+
+    // Sticky Ad
+    beans_add_attribute( 'beans_widget_panel[_sidebar_primary][_text][_text-5]', 'data-uk-sticky', '{top:50, boundary: true}');
 }
 
 
@@ -321,9 +328,9 @@ beans_modify_action_callback( 'beans_footer_content', 'bench_footer_content' );
 function bench_footer_content() {
 
 	?>
-	<div class="uk-grid uk-text-muted">
-		<div class="uk-width-medium-1-3">
-	<?php
+        <div class="uk-grid uk-text-muted">
+            <div class="uk-width-medium-1-3">
+                <?php
 		echo '<div class="tm-footer-logo">';
 			if ( $logo = get_theme_mod( 'beans_logo_image', false ) ) {
 				echo beans_open_markup( 'beans_site_title_link', 'a', array(
@@ -352,8 +359,8 @@ function bench_footer_content() {
 											));
 
 	?>
-		<div class="uk-text-muted uk-text-small uk-margin-large-top">
-			<?php
+                    <div class="uk-text-muted uk-text-small uk-margin-large-top">
+                        <?php
 			echo '<div>';
 			echo beans_output( 'beans_footer_credit_text', sprintf(
 					__( '&#x000A9; %1$s - %2$s. All rights reserved.', 'bench' ),
@@ -362,15 +369,15 @@ function bench_footer_content() {
 				) );
 			echo '</div>';
 		 ?>
-					<a href="https://kkthemes.com/wordpress/bench/" target="_blank" title="Bench theme for WordPress">Bench</a> theme for <a href="http://wordpress.org" target="_blank">WordPress</a>. Built-with <a href="http://www.getbeans.io/" title="Beans Framework for WordPress" target="_blank">Beans</a>.
-		</div>
-	</div>
-	<div class="uk-width-medium-2-3">
-	<?php bench_bottom_widget_area(); ?>
-	</div>
-</div>
-	<?php bench_site_toolbar(); ?>
-<?php
+                            <a href="https://kkthemes.com/wordpress/bench/" target="_blank" title="Bench theme for WordPress">Bench</a> theme for <a href="http://wordpress.org" target="_blank">WordPress</a>. Built-with <a href="http://www.getbeans.io/" title="Beans Framework for WordPress" target="_blank">Beans</a>.
+                    </div>
+            </div>
+            <div class="uk-width-medium-2-3">
+                <?php bench_bottom_widget_area(); ?>
+            </div>
+        </div>
+        <?php bench_site_toolbar(); ?>
+            <?php
 }
 
 //Setup Widgets
@@ -410,5 +417,17 @@ function bench_custom_head_code() {
 	echo get_theme_mod( 'bench_head_code', '' );
 }
 
-/* Customize Jetpack */
-require 'include/jetpack-custom.php';
+
+// Sitemap & Template redirects
+add_filter( 'template_include', 'beans_child_template_redirect' );
+
+function beans_child_template_redirect( $template ) {
+
+    global $wp;
+
+    if ( $wp->request === 'sitemap.xml' )
+        return get_stylesheet_directory() . '/include/sitemap.php';
+
+    return $template;
+
+}
