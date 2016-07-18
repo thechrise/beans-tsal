@@ -34,6 +34,20 @@ video{
     padding: 0 16px;
 }
 
+.buy-now a{
+  padding: 0 10px;
+}
+
+.buy-now .uk-text-center img{
+  -webkit-filter: grayscale(100%); /* Chrome, Safari, Opera */
+    filter: grayscale(100%);
+}
+
+.buy-now .uk-text-center img:hover{
+  -webkit-filter: none; /* Chrome, Safari, Opera */
+    filter: none;
+}
+
 .socialsites{
     float: left;
 }
