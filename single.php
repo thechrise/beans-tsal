@@ -3,6 +3,16 @@
 // Post title
 beans_add_attribute( 'beans_post_title', 'class', 'uk-margin-small-bottom' );
 
+// Move the post image above the post title.
+//beans_modify_action_hook( 'beans_post_navigation', 'beans_main_grid_prepend_markup');
+//beans_modify_action_hook( 'beans_post_image', 'beans_post_navigation_item[_previous]_after_markup' );
+
+//remove breadcrumb
+beans_remove_action( 'beans_breadcrumb' );
+
+// Post navigation
+beans_add_attribute( 'beans_post_navigation', 'class', 'uk-grid-margin' );
+
 // Post navigation
 beans_add_attribute( 'beans_post_navigation', 'class', 'uk-grid-margin uk-margin-bottom-remove' );
 

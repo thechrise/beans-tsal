@@ -1,0 +1,59 @@
+.tm-main{
+    background: url(../images/tsal-splash_background.jpg) no-repeat center top #000;
+    padding-top: 20px;
+}
+
+.uk-article{
+    background: transparent;
+}
+
+.uk-article .tm-article-content{
+    margin-top:0;
+}
+
+video{
+    -webkit-box-shadow: rgba(0,0,0,0.9) 0 4px 20px;
+    -moz-box-shadow: rgba(0,0,0,0.9) 0 4px 20px;
+    box-shadow: rgba(0,0,0,0.9) 0 4px 20px;
+    background: #000;
+    max-width: 100%;
+}
+
+.tm-article-content .uk-navbar-center{
+    max-width: 100%;
+}
+
+.uk-subnav{
+    display: inline-block;
+    margin-left:10px;
+}
+
+.uk-subnav a{
+    color: #fff;
+    font-size: 24px;
+    padding: 0 16px;
+}
+
+.socialsites{
+    float: left;
+}
+
+.sharing img {
+    opacity: .8;
+}
+
+.sharing a:hover img {
+    opacity: 1;
+}
+
+.sharing{
+    float: right;
+}
+
+.sharing a {
+    padding: 0 3px;
+}
+
+.producers img {
+    padding: 0 18px;
+}

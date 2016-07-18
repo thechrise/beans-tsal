@@ -127,6 +127,9 @@ function bench_setup_document() {
 	// Add a top element for scroll
 	beans_add_smart_action('beans_site_before_markup', 'bench_top_element');
 
+  // Change Header
+  beans_remove_markup('beans_site');
+
 	// Frontpage posts
 	if ( is_home() ) {
 		beans_add_smart_action('beans_header_after_markup', 'bench_site_title_tag');
@@ -158,21 +161,17 @@ function bench_setup_document() {
 			beans_add_smart_action('beans_post_header_before_markup', 'bench_edit_link');
 	}
 
-	// Only applies to singular and not pages
-	if ( is_singular() && !is_page() ) {
-		//remove breadcrumb
-		beans_remove_action( 'beans_breadcrumb' );
-
-		//remove featured image
-		//beans_remove_action( 'beans_post_image' );
-
-		// Post navigation
-		beans_add_attribute( 'beans_post_navigation', 'class', 'uk-grid-margin' );
-
-	}
+    // Main menu
+    beans_modify_action_hook('beans_site_branding', 'beans_primary_menu_after_markup');
+    beans_replace_attribute('beans_site_branding', 'class', 'tm-site-branding uk-float-left uk-margin-small-top', 'uk-navbar-content uk-navbar-center');
+    beans_remove_attribute('beans_primary_menu', 'class', 'uk-float-right');
+    beans_add_attribute('bench_menu_primary_search', 'class', 'uk-float-right');
+    beans_add_attribute('beans_primary_menu_offcanvas_button', 'class', 'uk-float-right');
 
     // Right Navigation
     beans_add_attribute( 'beans_widget_area_offcanvas_bar[_offcanvas_menu]', 'class', 'uk-offcanvas-bar-flip');
+
+
 
     // Sticky Ad
     beans_add_attribute( 'beans_widget_panel[_sidebar_primary][_text][_text-5]', 'data-uk-sticky', '{top:50, boundary: true}');
@@ -242,21 +241,9 @@ function bench_primary_menu_search() {
 
 	echo beans_open_markup( 'bench_menu_primary_search', 'div', array(
 		'class' => 'tm-search uk-visible-large uk-navbar-content',
-		'style' => 'display: none;'
 	) );
 
 		get_search_form();
-
-	echo beans_close_markup( 'bench_menu_primary_search', 'div' );
-
-	echo beans_open_markup( 'bench_menu_primary_search_toggle', 'div', array(
-		'class' => 'tm-search-toggle uk-visible-large uk-navbar-content uk-display-inline-block uk-contrast'
-	) );
-
-		echo beans_open_markup( 'bench_menu_primary_search_icon', 'i', array( 'class' => 'uk-icon-search' ) );
-		echo beans_close_markup( 'bench_menu_primary_search_icon', 'i' );
-
-	echo beans_close_markup( 'bench_menu_primary_search_toggle', 'div' );
 
 }
 
