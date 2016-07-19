@@ -130,11 +130,6 @@ function bench_setup_document() {
   // Change Header
   beans_remove_markup('beans_site');
 
-	// Frontpage posts
-	if ( is_home() ) {
-		beans_add_smart_action('beans_header_after_markup', 'bench_site_title_tag');
-	}
-
 	// Site Logo
 	beans_remove_action( 'beans_site_title_tag' );
 
@@ -177,21 +172,6 @@ function bench_setup_document() {
     beans_add_attribute( 'beans_widget_panel[_sidebar_primary][_text][_text-5]', 'data-uk-sticky', '{top:50, boundary: true}');
 }
 
-
-function bench_site_title_tag() {
-	// Stop here if there isn't a description.
-	if ( !$description = get_bloginfo( 'description' ) )
-		return;
-
-	echo beans_open_markup( 'bench_site_title_tag', 'div', array(
-		'class' => 'tm-site-title-tag uk-block',
-		'itemprop' => 'description'
-	) );
-
-		echo beans_output( 'bench_site_title_tag_text', $description );
-
-	echo beans_close_markup( 'bench_site_title_tag', 'div' );
-}
 
 function bench_edit_link() {
 		edit_post_link( __( 'Edit', 'bench' ), '<div class="uk-margin-bottom-small uk-text-small uk-align-right"><i class="uk-icon-pencil-square-o"></i> ', '</div>' );
